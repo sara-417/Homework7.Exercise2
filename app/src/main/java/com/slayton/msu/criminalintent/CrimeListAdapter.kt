@@ -1,17 +1,23 @@
 package com.slayton.msu.criminalintent
 
+
+import android.text.format.DateFormat
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.slayton.msu.criminalintent.databinding.ListItemCrimeBinding
+import java.util.*
 
 class CrimeHolder (
     private val binding: ListItemCrimeBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(crime: Crime) {
         binding.crimeTitle.text = crime.title
-        binding.crimeDate.text = crime.date.toString()
+//        binding.crimeDate.text = crime.date.toString()
+        binding.crimeDate.text = formatDate(crime.date)
+        binding.isSolvedBoolean.text = crime.isSolved.toString()
 
         binding.root.setOnClickListener {
             Toast.makeText(
@@ -19,7 +25,20 @@ class CrimeHolder (
                 "${crime.title} clicked!",
                 Toast.LENGTH_SHORT
             ).show()
+
+
+        binding.crimeSolved.visibility = if(crime.isSolved) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
+
+        }
+    }
+
+    private fun formatDate(date: Date): String {
+        val pattern = "EEE, MMMM d, yyyy"
+        return DateFormat.format(pattern, date) as String
     }
 }
 
