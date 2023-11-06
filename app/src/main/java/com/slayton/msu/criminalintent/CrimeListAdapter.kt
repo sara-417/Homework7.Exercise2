@@ -15,9 +15,8 @@ class CrimeHolder (
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(crime: Crime) {
         binding.crimeTitle.text = crime.title
-//        binding.crimeDate.text = crime.date.toString()
+//        call the function and pass the date as a parameter
         binding.crimeDate.text = formatDate(crime.date)
-        binding.isSolvedBoolean.text = crime.isSolved.toString()
 
         binding.root.setOnClickListener {
             Toast.makeText(
@@ -25,7 +24,7 @@ class CrimeHolder (
                 "${crime.title} clicked!",
                 Toast.LENGTH_SHORT
             ).show()
-
+        }
 
         binding.crimeSolved.visibility = if(crime.isSolved) {
             View.VISIBLE
@@ -35,12 +34,11 @@ class CrimeHolder (
 
         }
     }
-
+// create a function to handle formatting the date
     private fun formatDate(date: Date): String {
         val pattern = "EEE, MMMM d, yyyy"
         return DateFormat.format(pattern, date) as String
     }
-}
 
 class CrimeListAdapter(
     private val crimes: List<Crime>
