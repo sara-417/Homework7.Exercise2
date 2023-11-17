@@ -1,13 +1,14 @@
 package com.slayton.msu.criminalintent
 
-import java.util.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.UUID
+import java.util.Date
 
+@Entity
 data class Crime(
-    val id: UUID,
+    @PrimaryKey val id: UUID,
     val title: String,
     val date: Date,
-    val isSolved: Boolean) {
-
-
-
-}
+    val isSolved: Boolean
+)

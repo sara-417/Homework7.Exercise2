@@ -9,21 +9,21 @@ import androidx.fragment.app.Fragment
 import com.slayton.msu.criminalintent.databinding.FragmentCrimeDetailBinding
 import java.util.*
 
-class CrimeDetailsFragment :Fragment() {
+class CrimeDetailFragment : Fragment() {
 
-    internal lateinit var crime:Crime
-   // private lateinit var binding:FragmentCrimeDetailBinding
-   private var _binding: FragmentCrimeDetailBinding? = null
+    private var _binding: FragmentCrimeDetailBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
 
-    override fun onCreate(savedInstancesState: Bundle?) {
-        super.onCreate(savedInstancesState)
+    private lateinit var crime: Crime
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         crime = Crime(
-            UUID.randomUUID(),
+            id = UUID.randomUUID(),
             title = "",
             date = Date(),
             isSolved = false
@@ -35,30 +35,24 @@ class CrimeDetailsFragment :Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        //binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
-        _binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
+        _binding =
+            FragmentCrimeDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    //Wiring up views in a fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-                    //lsitener for edit text
             crimeTitle.doOnTextChanged { text, _, _, _ ->
                 crime = crime.copy(title = text.toString())
-
             }
 
-            //listener for button
-            crimeDate.apply{
+            crimeDate.apply {
                 text = crime.date.toString()
                 isEnabled = false
             }
 
-            //listener for checkbox
             crimeSolved.setOnCheckedChangeListener { _, isChecked ->
                 crime = crime.copy(isSolved = isChecked)
             }
@@ -69,6 +63,4 @@ class CrimeDetailsFragment :Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

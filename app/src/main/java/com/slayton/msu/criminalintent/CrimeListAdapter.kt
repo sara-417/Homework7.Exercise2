@@ -1,16 +1,14 @@
 package com.slayton.msu.criminalintent
 
 
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.slayton.msu.criminalintent.databinding.ListItemCrimeBinding
-import java.util.*
 
-class CrimeHolder (
+class CrimeHolder(
     private val binding: ListItemCrimeBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(crime: Crime) {
@@ -25,18 +23,17 @@ class CrimeHolder (
             ).show()
         }
 
-        binding.crimeSolved.visibility = if(crime.isSolved) {
+        binding.crimeSolved.visibility = if (crime.isSolved) {
             View.VISIBLE
         } else {
             View.GONE
         }
-
-        }
     }
+}
 
 class CrimeListAdapter(
     private val crimes: List<Crime>
-): RecyclerView.Adapter<CrimeHolder>() {
+) : RecyclerView.Adapter<CrimeHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -52,5 +49,4 @@ class CrimeListAdapter(
     }
 
     override fun getItemCount() = crimes.size
-
 }
