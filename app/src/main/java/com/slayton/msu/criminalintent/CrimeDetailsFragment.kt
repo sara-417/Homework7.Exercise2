@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +18,7 @@ import com.slayton.msu.criminalintent.databinding.FragmentCrimeDetailBinding
 import kotlinx.coroutines.launch
 import java.util.*
 
+private const val TAG = "CrimeDetailsFragment"
 
 class CrimeDetailsFragment : Fragment() {
 
@@ -24,8 +27,6 @@ class CrimeDetailsFragment : Fragment() {
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
-
-//    private val args: CrimeDetailFragmentArgs by navArgs()
 
     private val args: CrimeDetailsFragmentArgs by navArgs()
 
@@ -45,6 +46,11 @@ class CrimeDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        // from documentation
+//        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+//            // Handle the back button event
+//        }
 
         binding.apply {
             crimeTitle.doOnTextChanged { text, _, _, _ ->
@@ -71,6 +77,15 @@ class CrimeDetailsFragment : Fragment() {
                 }
             }
         }
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Log.d(TAG, "Haha you can't go back!!")
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
     }
 
     override fun onDestroyView() {
