@@ -33,7 +33,7 @@
         android:id="@+id/crime_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Wed May 11 11:56 EST 2022"
+        tools:text="Sat November 18 11:34 EST 2023"
         />
 
     <CheckBox
