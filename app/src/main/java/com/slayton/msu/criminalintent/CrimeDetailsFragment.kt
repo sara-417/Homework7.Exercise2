@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.core.widget.doOnTextChanged
@@ -13,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.slayton.msu.criminalintent.databinding.FragmentCrimeDetailBinding
 import kotlinx.coroutines.launch
@@ -47,11 +49,6 @@ class CrimeDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        // from documentation
-//        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-//            // Handle the back button event
-//        }
-
         binding.apply {
             crimeTitle.doOnTextChanged { text, _, _, _ ->
                 crimeDetailViewModel.updateCrime { oldCrime ->
@@ -80,10 +77,21 @@ class CrimeDetailsFragment : Fragment() {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                Log.d(TAG, "Haha you can't go back!!")
+                binding.apply {
+                    val trimmedTitle = crimeTitle.text.toString().trim()
+                    if (trimmedTitle.isBlank()) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Please provide a description for the crime",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    else {
+                        Navigation.findNavController(requireView()).popBackStack()
+                    }
+                }
             }
         }
-
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
     }
